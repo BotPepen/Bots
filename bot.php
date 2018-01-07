@@ -121,3 +121,71 @@ if (isset($balas)) {
     $client->replyMessage($balas);
 }
 ?>
+# ------------------------- [Fungsi] --------------------- ---- #
+fungsi  cuaca ( $ keyword ) {
+    $ uri  =  " http://api.openweathermap.org/data/2.5/weather?q= "  .  $ kata kunci  .  " , ID & units = metric & appid = e172c2f3a3c620591582ab5242e0e6c4 " ;
+    $ response  =  Unirest \ Request :: get ( " $ uri " );
+    $ json  =  json_decode ( $ response -> raw_body , true );
+    $ result  =  " Halo Kak ^ _ ^ Ini ada Ramalan Cuaca Untuk Daerah " ;
+	$ result  . =  $ json [ ' name ' ];
+	$ result  . =  " Dan Aroundnya " ;
+	$ result  . =  " \ n \ n Cuaca: " ;
+	$ result  . =  $ json [ ' weather ' ] [ ' 0 ' ] [ ' main ' ];
+	$ result  . =  " \ n Deskripsi: " ;
+	$ result  =  $ json [ ' weather ' ] [ ' 0 ' ] [ ' description ' ];
+    kembali  $ hasil ;
+}
+# ------------------------- [Fungsi] --------------------- ---- #
+# require_once ('./ src / function / search-1.php');
+# require_once ('./ src / function / download.php');
+# require_once ('./ src / function / random.php');
+# require_once ('./ src / function / search-2.php');
+# require_once ('./ src / function / hard.php');
+// show menu, saat join dan command / menu
+if ( $ type  ==  ' join '  ||  $ command  ==  ' / menu ' ) {
+    $ text  =  " Halo Kak ^ _ ^ \ n Aku Bot Prediksi Cuaca, Kamu bisa mengetahui prediksi di daerah kamu sesuai dengan sumber BMKG " ;
+    $ balas  =  Array 
+        ' replyToken '  =>  $ replyToken ,
+        ' messages '  =>  array (
+            array (
+                ' type '  =>  ' text ' ,
+                ' teks '  =>  $ teks
+            )
+        )
+    );
+}
+// pesan bergambar
+if ( $ message [ ' type ' ] == ' text ' ) {
+	    if ( $ command  ==  ' / cuaca ' ) {
+        $ result  = cuaca ( $ options );
+        $ balas  =  Array (
+            ' replyToken '  =>  $ replyToken ,
+            ' messages '  =>  array (
+                array (
+                    ' type '  =>  ' text ' ,
+                    ' text '  =>  $ result
+                )
+            )
+        );
+    }
+} else  if ( $ message [ ' type ' ] == ' :V ' )
+{	
+	$ balas  =  Array (
+							' replyToken '  =>  $ replyToken ,														
+							' messages '  =>  array (
+								array (
+										' type '  =>  ' text ' ,									
+										' text '  =>  ' MangapTerus '										
+					
+									)
+							)
+						);
+						
+}
+jika ( isset ( $ balas )) {
+    $ result  =  json_encode ( $ balas );
+// $ result = ob_get_clean ();
+    file_put_contents ( ' ./balasan.json ' , $ result );
+    $ client -> replyMessage ( $ balas );
+}
+? 
